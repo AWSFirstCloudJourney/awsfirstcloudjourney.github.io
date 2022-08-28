@@ -1,0 +1,3176 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.99.1" />
+    <meta name="description" content="">
+<meta name="author" content="journeyoftheaverageguy@gmail.com">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Elastic Load Balancers :: AWS Certified Solutions Architect - Associate (SAA-C03) Exam Notes</title>
+
+    
+    <link href="/css/nucleus.css?1661685365" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1661685365" rel="stylesheet">
+    <link href="/css/hybrid.css?1661685365" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1661685365" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1661685365" rel="stylesheet">
+    <link href="/css/auto-complete.css?1661685365" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1661685365" rel="stylesheet">
+    <link href="/css/theme.css?1661685365" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1661685365" rel="stylesheet">
+    
+    <link href="/css/theme-workshop.css?1661685365" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1661685365"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/1-introduce/1.3-elb/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="/">
+
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="30%"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#f90;fill-rule:evenodd;}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"></path><path class="cls-2" d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"></path><path class="cls-2" d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"></path></svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1661685365"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1661685365"></script>
+<script type="text/javascript">
+    
+        var baseurl = "";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1661685365"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/" title="Fundamentals" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/1-introduce/">
+           <b> 1. </b> Fundamentals
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.1-region/" title="AWS Region" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.1-region/">
+           <b> 1.1 </b> AWS Region
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.2-ec2/" title="AWS EC2" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.2-ec2/">
+           <b> 1.2 </b> AWS EC2
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.3-elb/" title="Elastic Load Balancers" class="dd-item 
+        parent
+        active
+        
+        ">
+      <a href="/1-introduce/1.3-elb/">
+           <b> 1.3 </b> Elastic Load Balancers
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.4-asg/" title="Auto Scaling Groups" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.4-asg/">
+           <b> 1.4 </b> Auto Scaling Groups
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.5-ebs/" title="Elastic Block Storage" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.5-ebs/">
+           <b> 1.5 </b> Elastic Block Storage
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.6-efs/" title="Elastic File System" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.6-efs/">
+           <b> 1.6 </b> Elastic File System
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.7-rds/" title="RDS - Relational Database Service" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.7-rds/">
+           <b> 1.7 </b> RDS - Relational Database Service
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.8-aurora/" title="Amazon Aurora" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.8-aurora/">
+           <b> 1.8 </b> Amazon Aurora
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.9-cache/" title="ElastiCache" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.9-cache/">
+           <b> 1.9 </b> ElastiCache
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.10-s3/" title="Amazon S3" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.10-s3/">
+           <b> 1.10 </b> Amazon S3
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.11-route53/" title="Route 53" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.11-route53/">
+           <b> 1.11 </b> Route 53
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/" title="Deep Dive" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/">
+           <b> 2. </b> Deep Dive
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.1-s3/" title="Advanced S3" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.1-s3/">
+           <b> 2.1 </b> Advanced S3
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.2-role/" title="AWS CLI, SDK, IAM Roles and Policies" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.2-role/">
+           <b> 2.2 </b> AWS CLI, SDK, IAM Roles and Policies
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.3-architecture/" title="Elastic Beanstalk" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.3-architecture/">
+           <b> 2.3 </b> Elastic Beanstalk
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.4-cloudfront/" title="AWS CloudFront" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.4-cloudfront/">
+           <b> 2.4 </b> AWS CloudFront
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.5-cloudwatch/" title="AWS CloudWatch" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.5-cloudwatch/">
+           <b> 2.5 </b> AWS CloudWatch
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.6-cloudtrail/" title="AWS CloudTrail" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.6-cloudtrail/">
+           <b> 2.6 </b> AWS CloudTrail
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.7-config/" title="AWS Config" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.7-config/">
+           <b> 2.7 </b> AWS Config
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.8-ga/" title="AWS Global Accelerator" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.8-ga/">
+           <b> 2.8 </b> AWS Global Accelerator
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.9-snowball/" title="Snowball" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.9-snowball/">
+           <b> 2.9 </b> Snowball
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.10-sg/" title="Storage Gateway" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.10-sg/">
+           <b> 2.10 </b> Storage Gateway
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.11-fsx/" title="Amazon FSx" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.11-fsx/">
+           <b> 2.11 </b> Amazon FSx
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.12-network/" title="Networking and VPC" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.12-network/">
+           <b> 2.12 </b> Networking and VPC
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.13-database/" title="Databases" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.13-database/">
+           <b> 2.13 </b> Databases
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.14-sqs/" title="SQS - Simple Queue Service" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.14-sqs/">
+           <b> 2.14 </b> SQS - Simple Queue Service
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.15-sns/" title="SNS - Simple Notification Service" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.15-sns/">
+           <b> 2.15 </b> SNS - Simple Notification Service
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.16-kinesis/" title="AWS Kinesis" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.16-kinesis/">
+           <b> 2.16 </b> AWS Kinesis
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.17-mq/" title="Amazon MQ" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.17-mq/">
+           <b> 2.17 </b> Amazon MQ
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/" title="Serverless" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/">
+           <b> 3. </b> Serverless
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.1-lambda/" title="AWS Lambda Functions" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.1-lambda/">
+           <b> 3.1 </b> AWS Lambda Functions
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.2-dynamodb/" title="AWS DynamoDB" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.2-dynamodb/">
+           <b> 3.2 </b> AWS DynamoDB
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.3-api/" title="AWS API Gateway" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.3-api/">
+           <b> 3.3 </b> AWS API Gateway
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.4-cognito/" title="AWS Cognito" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.4-cognito/">
+           <b> 3.4 </b> AWS Cognito
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.5-sam/" title="AWS SAM" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.5-sam/">
+           <b> 3.5 </b> AWS SAM
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/" title="Security and Disaster Recovery" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/">
+           <b> 4. </b> Security and Disaster Recovery
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.1-iam/" title="Advanced IAM" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.1-iam/">
+           <b> 4.1 </b> Advanced IAM
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.2-encryption/" title="Encryption" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.2-encryption/">
+           <b> 4.2 </b> Encryption
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.3-ssm/" title="SSM Parameter Store" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.3-ssm/">
+           <b> 4.3 </b> SSM Parameter Store
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.4-sm/" title="AWS Secrets Manager" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.4-sm/">
+           <b> 4.4 </b> AWS Secrets Manager
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.5-hsm/" title="CloudHSM" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.5-hsm/">
+           <b> 4.5 </b> CloudHSM
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.6-shield/" title="AWS Shield" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.6-shield/">
+           <b> 4.6 </b> AWS Shield
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.7-waf/" title="WAF - Web Application Firewall" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.7-waf/">
+           <b> 4.7 </b> WAF - Web Application Firewall
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.8-srm/" title="AWS Shared Responsibility Model" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.8-srm/">
+           <b> 4.8 </b> AWS Shared Responsibility Model
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.9-dr/" title="Disaster Recovery" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.9-dr/">
+           <b> 4.9 </b> Disaster Recovery
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.10-dms/" title="DMS - Database Migration Tool" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.10-dms/">
+           <b> 4.10 </b> DMS - Database Migration Tool
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.11-datasync/" title="AWS DataSync" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.11-datasync/">
+           <b> 4.11 </b> AWS DataSync
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/" title="Other Services" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/">
+           <b> 5. </b> Other Services
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.1-cicd/" title="CICD - Continuous Integration / Continuous Delivery" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.1-cicd/">
+           <b> 5.1 </b> CICD - Continuous Integration / Continuous Delivery
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.2-cf/" title="CloudFormation" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.2-cf/">
+           <b> 5.2 </b> CloudFormation
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.3-container/" title="Containers in the Cloud" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.3-container/">
+           <b> 5.3 </b> Containers in the Cloud
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.4-data/" title="Data Analytics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.4-data/">
+           <b> 5.4 </b> Data Analytics
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.5-otherservices/" title="Other Services" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.5-otherservices/">
+           <b> 5.5 </b> Other Services
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.6-sa/" title=" More Solution Architecture" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.6-sa/">
+           <b> 5.6 </b>  More Solution Architecture
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/6-whitepapers/" title="Whitepapers" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/6-whitepapers/">
+           <b> 6. </b> Whitepapers
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/6-whitepapers/6.1-well/" title="Well Architectured Framework" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/6-whitepapers/6.1-well/">
+           <b> 6.1 </b> Well Architectured Framework
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/6-whitepapers/6.2-trust/" title="AWS Trusted Advisor" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/6-whitepapers/6.2-trust/">
+           <b> 6.2 </b> AWS Trusted Advisor
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj/"><i class='fab fa-facebook'></i> AWS Study Group</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+          <div class="select-style">
+            <select id="select-language" onchange="location = this.value;">
+          
+          
+          
+              
+              
+                  
+                    
+                    
+                      <option id="en" value="/1-introduce/1.3-elb/" selected>English</option>
+                    
+                  
+              
+                  
+              
+          
+        </select>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+          <g>
+            <g id="arrow-drop-down">
+              <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+            </g>
+          </g>
+        </svg>
+        </div>
+        </a>
+        </li>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+    
+     <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7838073&style=0038&nbdigits=9&type=page&initCount=0" title="Migrate" Alt="web counter"   border="0" /></a>  <br>
+     <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0" title="Total CLoud Journey" Alt="web counter"   border="0"   />
+     
+</left>
+<left>
+    <br>
+    <br>
+        <b> Last Updated </b> <br>
+        <i><font color=orange>28-08-2022</font></i>
+    </left>
+    <left>
+        <br>
+        <br>
+            <b> Team </b> <br>
+            <i> <a href="https://www.linkedin.com/in/jotaguy"  style="color:orange">Gia Hưng </a> <br>
+            <a href="https://www.linkedin.com/in/vanhoangkha/" style="color:orange">Hoàng Kha </a> <br>
+        </i>
+        </left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>AWS Certified Solutions Architect - Associate Exam Notes</a> > <a href='/1-introduce/'>Fundamentals</a> > Elastic Load Balancers
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Elastic Load Balancers
+            </h1>
+          
+
+        
+
+
+
+	<h4 id="elastic-load-balancers">Elastic Load Balancers</h4>
+<h4 id="scalability-and-high-availability">Scalability and High Availability</h4>
+<ul>
+<li>Scalability means that an a system can handle greater loads by adapting</li>
+<li>We can distinguish two types of scalability strategies:
+<ul>
+<li><strong>Vertical Scalability</strong> (scale up/down)
+<ul>
+<li>Increase the size of the current instance (ex. from a t2.micro instance migrate to a a t2.large one)</li>
+<li>Vertical scalability is common for non distributed systems, such as databases</li>
+<li>RDS, ElastiCache are services that can scale vertically</li>
+</ul>
+</li>
+<li><strong>Horizontal Scalability</strong> (scale out/in)
+<ul>
+<li>Increase the number of instances on which the application runs</li>
+<li>Horizontal scaling implies having a distributed system</li>
+<li>It&rsquo;s easy to scale horizontally thanks to could offerings such as EC2</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>High Availability means running our application in at least 2 data centers (AZs)
+<ul>
+<li>The goal of high availability is to survive a data center loss</li>
+</ul>
+</li>
+<li>High Availability can be:
+<ul>
+<li>Passive</li>
+<li>Active</li>
+</ul>
+</li>
+<li>Load balancers can scale but not instantaneously - contact AWS for a &ldquo;warm-up&rdquo;</li>
+<li>Troubleshooting:
+<ul>
+<li>4xx errors are client induced errors</li>
+<li>5xx errors are application induced errors (server side errors)</li>
+<li>Error 503 means that the load balancer is at capacity or no registered targets can be found</li>
+<li>If the load balancer can&rsquo;t connect to the application, it most likely means that the security group blocks the connection</li>
+</ul>
+</li>
+<li>Monitoring:
+<ul>
+<li>ELB access logs will log all the access requests to the LB</li>
+<li>CloudWatch Metrics will give aggregate statistics (example: connections counts)</li>
+</ul>
+</li>
+</ul>
+<h4 id="load-balancing-basics">Load Balancing Basics</h4>
+<ul>
+<li>Load balancers are servers that forward internet traffic to multiple other servers (most likely EC2 instances)</li>
+<li>Why use load balances?
+<ul>
+<li>Spear load across multiple downstream instances</li>
+<li>Expose a single point of access (DNS) to the application</li>
+<li>Seamlessly handle failures of downstream instances (by using health checks)</li>
+<li>Do regular health checks to registered instances</li>
+<li>Provide SSL termination (HTTPS) for the website hosted on the downstream instances</li>
+<li>Enforce stickiness for cookies</li>
+<li>High availability across availability zones (load balancer can be spread across multiple AZs, not regions!!!)</li>
+<li>Cleanly separate public traffic from private traffic</li>
+</ul>
+</li>
+<li>An ELB (Elastic Load Balancer) is a <strong>managed load balancer</strong> which means:
+<ul>
+<li>AWS guarantees that it will be working</li>
+<li>AWS takes care of upgrades, maintenance and high availability</li>
+<li>An ELB provides a few configuration options for us also</li>
+<li>It costs less to setup our custom load balancer, but it will be a lot more effort to maintain on the long run</li>
+<li>An ELB is integrated with many AWS offering/services, it will be more flexible than a custom LB</li>
+</ul>
+</li>
+</ul>
+<h4 id="health-checks">Health Checks</h4>
+<ul>
+<li>They enable for a LB to know if an instance for which traffic is forwarded is available to reply to requests</li>
+<li>The health checks is done using a port and a route (usually /health)</li>
+<li>If the response is not 200, then the instance is considered unhealthy</li>
+</ul>
+<h4 id="types-of-load-balancers-on-aws">Types of Load Balancers on AWS</h4>
+<ul>
+<li>AWS provides 4 type of load balancers:
+<ul>
+<li>Classic Load Balancer (v1 - old generation): supports HTTP, HTTPS and TCP</li>
+<li>Application Load Balancer (v2 - new generation): supports HTTP, HTTPS and WebSockets</li>
+<li>Network Load Balancer (v2 - new generation): supports TCP, TLS (secure TCP) and UDP</li>
+<li>Gateway Load Balancer (new generation - see VPC section of the notes)</li>
+</ul>
+</li>
+<li>It is recommended to use the new versions</li>
+<li>We can setup <strong>internal</strong> (private) and <strong>external</strong> (public) load balancers on AWS</li>
+</ul>
+<h4 id="classic-load-balancers-clb">Classic Load Balancers (CLB)</h4>
+<ul>
+<li>They support 2 types of connections: TCP (layer 4) and HTTP(S) (layer 7)</li>
+<li>Health checks are either TCP or HTTP based</li>
+<li>CLBs provide a fixed hostname: XXX.region.elb.amazonaws.com</li>
+</ul>
+<h4 id="application-load-balancers-alb">Application Load Balancers (ALB)</h4>
+<ul>
+<li>They are a layer 7 type load balancers (only HTTP or HTTPS)</li>
+<li>They allow load balancing to multiple HTTP applications across multiple machines (target groups). Also they allow to load balance to multiple applications on the same EC2 instance (useful in case of containers)</li>
+<li>They have support for HTTP2 and WebSockets.</li>
+<li>They support redirects, example for HTTP to HTTPS</li>
+<li>They provide routing tables to different target groups:
+<ul>
+<li>Routing based on path in URL</li>
+<li>Routing based on the hostname</li>
+<li>Routing based on query strings an headers</li>
+</ul>
+</li>
+<li>ALBs are great fit for micros-services and container based applications</li>
+<li>ALBs have port mapping features to redirect to dynamic ports in case ECS</li>
+<li>Target groups can contain:
+<ul>
+<li>EC2 instances (can be managed by an Auto Scaling Group)</li>
+<li>ECS tasks (managed by ECS itself)</li>
+<li>Lambda Functions -  HTTP request is translated to a JSON event</li>
+<li>IP Addresses - must be private IP addresses</li>
+</ul>
+</li>
+<li>ALBs also provide a fixed hostname (same as CLBs): XXX.region.elb.amazonaws.com</li>
+<li>The application servers behind the LB can not see the IP of the client who accessing them directly, but they can retrieve for <strong>X-Forwarded-For</strong> header. The port can be fetched from <strong>X-Forwarded-Port</strong> and the protocol from <strong>X-Forwarded-Proto</strong></li>
+</ul>
+<h4 id="network-load-balancers-nlb">Network Load Balancers (NLB)</h4>
+<ul>
+<li>Network load balancers (layer 4) allow to:
+<ul>
+<li>Forward TCP and UDP traffic to the registered instances</li>
+<li>Handle millions of requests per second</li>
+<li>Less latency ~100ms (vs 400ms for ALB)</li>
+</ul>
+</li>
+<li>NLBs have <strong>one static IP per AZ</strong> and supports Elastic IPs (can be used when whitelisting is necessary)</li>
+<li>Use case for NLBs: NLBs are used for extreme performance in case of TCP or UDP traffic (example: video games)</li>
+<li>Instances behind an NLB don&rsquo;t see traffic coming from the load balancer, they see traffic as it was coming from the outside world =&gt; no security group is attached to LB =&gt; security group attached to the target EC2 instance should be changed to allow traffic from the outside (example: 0.0.0.0/0, on port 80)</li>
+</ul>
+<h4 id="stickiness">Stickiness</h4>
+<ul>
+<li>It is possible to implement stickiness in case of CLB and ALB load balancers</li>
+<li>Stickiness means that the traffic from the same client will be forwarded to the same target instance</li>
+<li>Stickiness works by adding a cookie to the request which has an expiration date for controlling the
+stickiness period</li>
+<li>Possible use case for stickiness: we have to make sure that the user does not lose his session data</li>
+<li>Enabling stickiness may bring imbalance to the load over the downstream target instances</li>
+</ul>
+<h4 id="cross-zone-load-balancing">Cross-Zone Load Balancing</h4>
+<ul>
+<li>With Cross-Zone Load Balancing enabled each LB instance distributes traffic evenly across multiple AZs</li>
+<li>Otherwise, ech LB node distributes requests evenly only in the AZ where it is registered</li>
+<li>Classic Load Balancer:
+<ul>
+<li>Cross-zone load balancing is disabled by default</li>
+<li>No additional charges for cross zone load balancing if the feature is enabled</li>
+</ul>
+</li>
+<li>Application Load Balancer:
+<ul>
+<li>Cross-zone load balancing is always on, can not be disabled</li>
+<li>No charges applied for cross zone load balancing</li>
+</ul>
+</li>
+<li>Network Load Balancer:
+<ul>
+<li>Cross-zone load balancing is disabled by default</li>
+<li>Additional charges apply if the feature is enabled</li>
+</ul>
+</li>
+</ul>
+<h4 id="ssltls-certificates">SSL/TLS Certificates</h4>
+<ul>
+<li>An SSL certificate allows traffic to be encrypted between the clients and the load balancers. This ia called encryption in transit or in-flight encryption</li>
+<li>SSL - Secure Socket Layer</li>
+<li>TLS (newer version of SSL) - Transport Layer Security</li>
+<li>Nowadays TLS are mainly used, but we are still referring to it as SSL</li>
+<li>Public SSL certificates are issued by a Certificate Authority</li>
+<li>SSL certificates have an expiration dates and they must be renewed</li>
+<li>SSL termination: client can talk with a LB using HTTPS but internal traffic can be routed to a target using HTTP</li>
+<li>Load balancer can load an X.509 certificate (which is a SSL/TLS server certificate)</li>
+<li>We can manage certificates in AWS using ACM (AWS Certificate Manager)</li>
+<li>HTTPS Listener:
+<ul>
+<li>We must specify a default certificate</li>
+<li>We can add an optional list of certificates to support multiple domains</li>
+<li>Clients can use SNI (Server Name Indication) to specify which hostname want to reach</li>
+<li>Ability to specify a security policy to support older versions of SSL/TLS (for legacy clients like Internet Explorer 5 lol:) )</li>
+</ul>
+</li>
+</ul>
+<h4 id="sni---server-name-indication">SNI - Server Name Indication</h4>
+<ul>
+<li>SNI solves the problem of being able to load multiple SSL certificates onto one web server</li>
+<li>There is a newer protocol which requires the client to indicate the hostname of the target server in the initial SSL handshake
+<ul>
+<li>In case of AWS this only works for ALB, NLB and CloudFront (no CLB!)</li>
+</ul>
+</li>
+</ul>
+<h4 id="elb---connection-draining">ELB - Connection Draining</h4>
+<ul>
+<li>Feature naming:
+<ul>
+<li>In case of a CLB is called Connections Draining</li>
+<li>If we have a target group: (ALB, NLB) it is called Deregistration Delay</li>
+</ul>
+</li>
+<li>Connection draining is the time to complete in-flight requests while the instance is de-registering or unhealthy. Basically it allows the instance to terminate whatever it was doing</li>
+<li>The LB will stop sending new requests to the target instance which is in progress of de-registering</li>
+<li>The time period of the connection draining can be set between 1 seconds to 3600 seconds</li>
+<li>It also can be disabled (set the period to 0 seconds)</li>
+</ul>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/1-introduce/1.2-ec2/" title="AWS EC2"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/1-introduce/1.4-asg/" title="Auto Scaling Groups" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1661685365"></script>
+    <script src="/js/perfect-scrollbar.min.js?1661685365"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1661685365"></script>
+    <script src="/js/jquery.sticky.js?1661685365"></script>
+    <script src="/js/featherlight.min.js?1661685365"></script>
+    <script src="/js/highlight.pack.js?1661685365"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1661685365"></script>
+    <script src="/js/learn.js?1661685365"></script>
+    <script src="/js/hugo-learn.js?1661685365"></script>
+
+    <link href="/mermaid/mermaid.css?1661685365" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1661685365"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-158079754-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>

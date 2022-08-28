@@ -1,0 +1,3349 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.99.1" />
+    <meta name="description" content="">
+<meta name="author" content="journeyoftheaverageguy@gmail.com">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Networking and VPC :: AWS Certified Solutions Architect - Associate (SAA-C03) Exam Notes</title>
+
+    
+    <link href="/css/nucleus.css?1661685366" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1661685366" rel="stylesheet">
+    <link href="/css/hybrid.css?1661685366" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1661685366" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1661685366" rel="stylesheet">
+    <link href="/css/auto-complete.css?1661685366" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1661685366" rel="stylesheet">
+    <link href="/css/theme.css?1661685366" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1661685366" rel="stylesheet">
+    
+    <link href="/css/theme-workshop.css?1661685366" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1661685366"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/2-prerequiste/2.12-network/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="/">
+
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="30%"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#f90;fill-rule:evenodd;}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"></path><path class="cls-2" d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"></path><path class="cls-2" d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"></path></svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1661685366"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1661685366"></script>
+<script type="text/javascript">
+    
+        var baseurl = "";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1661685366"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/" title="Fundamentals" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/">
+           <b> 1. </b> Fundamentals
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.1-region/" title="AWS Region" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.1-region/">
+           <b> 1.1 </b> AWS Region
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.2-ec2/" title="AWS EC2" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.2-ec2/">
+           <b> 1.2 </b> AWS EC2
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.3-elb/" title="Elastic Load Balancers" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.3-elb/">
+           <b> 1.3 </b> Elastic Load Balancers
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.4-asg/" title="Auto Scaling Groups" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.4-asg/">
+           <b> 1.4 </b> Auto Scaling Groups
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.5-ebs/" title="Elastic Block Storage" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.5-ebs/">
+           <b> 1.5 </b> Elastic Block Storage
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.6-efs/" title="Elastic File System" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.6-efs/">
+           <b> 1.6 </b> Elastic File System
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.7-rds/" title="RDS - Relational Database Service" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.7-rds/">
+           <b> 1.7 </b> RDS - Relational Database Service
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.8-aurora/" title="Amazon Aurora" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.8-aurora/">
+           <b> 1.8 </b> Amazon Aurora
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.9-cache/" title="ElastiCache" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.9-cache/">
+           <b> 1.9 </b> ElastiCache
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.10-s3/" title="Amazon S3" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.10-s3/">
+           <b> 1.10 </b> Amazon S3
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/1-introduce/1.11-route53/" title="Route 53" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/1-introduce/1.11-route53/">
+           <b> 1.11 </b> Route 53
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/" title="Deep Dive" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/2-prerequiste/">
+           <b> 2. </b> Deep Dive
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.1-s3/" title="Advanced S3" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.1-s3/">
+           <b> 2.1 </b> Advanced S3
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.2-role/" title="AWS CLI, SDK, IAM Roles and Policies" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.2-role/">
+           <b> 2.2 </b> AWS CLI, SDK, IAM Roles and Policies
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.3-architecture/" title="Elastic Beanstalk" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.3-architecture/">
+           <b> 2.3 </b> Elastic Beanstalk
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.4-cloudfront/" title="AWS CloudFront" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.4-cloudfront/">
+           <b> 2.4 </b> AWS CloudFront
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.5-cloudwatch/" title="AWS CloudWatch" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.5-cloudwatch/">
+           <b> 2.5 </b> AWS CloudWatch
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.6-cloudtrail/" title="AWS CloudTrail" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.6-cloudtrail/">
+           <b> 2.6 </b> AWS CloudTrail
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.7-config/" title="AWS Config" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.7-config/">
+           <b> 2.7 </b> AWS Config
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.8-ga/" title="AWS Global Accelerator" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.8-ga/">
+           <b> 2.8 </b> AWS Global Accelerator
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.9-snowball/" title="Snowball" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.9-snowball/">
+           <b> 2.9 </b> Snowball
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.10-sg/" title="Storage Gateway" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.10-sg/">
+           <b> 2.10 </b> Storage Gateway
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.11-fsx/" title="Amazon FSx" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.11-fsx/">
+           <b> 2.11 </b> Amazon FSx
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.12-network/" title="Networking and VPC" class="dd-item 
+        parent
+        active
+        
+        ">
+      <a href="/2-prerequiste/2.12-network/">
+           <b> 2.12 </b> Networking and VPC
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.13-database/" title="Databases" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.13-database/">
+           <b> 2.13 </b> Databases
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.14-sqs/" title="SQS - Simple Queue Service" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.14-sqs/">
+           <b> 2.14 </b> SQS - Simple Queue Service
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.15-sns/" title="SNS - Simple Notification Service" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.15-sns/">
+           <b> 2.15 </b> SNS - Simple Notification Service
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.16-kinesis/" title="AWS Kinesis" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.16-kinesis/">
+           <b> 2.16 </b> AWS Kinesis
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/2-prerequiste/2.17-mq/" title="Amazon MQ" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/2-prerequiste/2.17-mq/">
+           <b> 2.17 </b> Amazon MQ
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/" title="Serverless" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/">
+           <b> 3. </b> Serverless
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.1-lambda/" title="AWS Lambda Functions" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.1-lambda/">
+           <b> 3.1 </b> AWS Lambda Functions
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.2-dynamodb/" title="AWS DynamoDB" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.2-dynamodb/">
+           <b> 3.2 </b> AWS DynamoDB
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.3-api/" title="AWS API Gateway" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.3-api/">
+           <b> 3.3 </b> AWS API Gateway
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.4-cognito/" title="AWS Cognito" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.4-cognito/">
+           <b> 3.4 </b> AWS Cognito
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/3-serverless/3.5-sam/" title="AWS SAM" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/3-serverless/3.5-sam/">
+           <b> 3.5 </b> AWS SAM
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/" title="Security and Disaster Recovery" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/">
+           <b> 4. </b> Security and Disaster Recovery
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.1-iam/" title="Advanced IAM" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.1-iam/">
+           <b> 4.1 </b> Advanced IAM
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.2-encryption/" title="Encryption" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.2-encryption/">
+           <b> 4.2 </b> Encryption
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.3-ssm/" title="SSM Parameter Store" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.3-ssm/">
+           <b> 4.3 </b> SSM Parameter Store
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.4-sm/" title="AWS Secrets Manager" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.4-sm/">
+           <b> 4.4 </b> AWS Secrets Manager
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.5-hsm/" title="CloudHSM" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.5-hsm/">
+           <b> 4.5 </b> CloudHSM
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.6-shield/" title="AWS Shield" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.6-shield/">
+           <b> 4.6 </b> AWS Shield
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.7-waf/" title="WAF - Web Application Firewall" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.7-waf/">
+           <b> 4.7 </b> WAF - Web Application Firewall
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.8-srm/" title="AWS Shared Responsibility Model" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.8-srm/">
+           <b> 4.8 </b> AWS Shared Responsibility Model
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.9-dr/" title="Disaster Recovery" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.9-dr/">
+           <b> 4.9 </b> Disaster Recovery
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.10-dms/" title="DMS - Database Migration Tool" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.10-dms/">
+           <b> 4.10 </b> DMS - Database Migration Tool
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/4-sdr/4.11-datasync/" title="AWS DataSync" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/4-sdr/4.11-datasync/">
+           <b> 4.11 </b> AWS DataSync
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/" title="Other Services" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/">
+           <b> 5. </b> Other Services
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.1-cicd/" title="CICD - Continuous Integration / Continuous Delivery" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.1-cicd/">
+           <b> 5.1 </b> CICD - Continuous Integration / Continuous Delivery
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.2-cf/" title="CloudFormation" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.2-cf/">
+           <b> 5.2 </b> CloudFormation
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.3-container/" title="Containers in the Cloud" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.3-container/">
+           <b> 5.3 </b> Containers in the Cloud
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.4-data/" title="Data Analytics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.4-data/">
+           <b> 5.4 </b> Data Analytics
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.5-otherservices/" title="Other Services" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.5-otherservices/">
+           <b> 5.5 </b> Other Services
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/5-otherservices/5.6-sa/" title=" More Solution Architecture" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/5-otherservices/5.6-sa/">
+           <b> 5.6 </b>  More Solution Architecture
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/6-whitepapers/" title="Whitepapers" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/6-whitepapers/">
+           <b> 6. </b> Whitepapers
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/6-whitepapers/6.1-well/" title="Well Architectured Framework" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/6-whitepapers/6.1-well/">
+           <b> 6.1 </b> Well Architectured Framework
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/6-whitepapers/6.2-trust/" title="AWS Trusted Advisor" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/6-whitepapers/6.2-trust/">
+           <b> 6.2 </b> AWS Trusted Advisor
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj/"><i class='fab fa-facebook'></i> AWS Study Group</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+          <div class="select-style">
+            <select id="select-language" onchange="location = this.value;">
+          
+          
+          
+              
+              
+                  
+                    
+                    
+                      <option id="en" value="/2-prerequiste/2.12-network/" selected>English</option>
+                    
+                  
+              
+                  
+              
+          
+        </select>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+          <g>
+            <g id="arrow-drop-down">
+              <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+            </g>
+          </g>
+        </svg>
+        </div>
+        </a>
+        </li>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+    
+     <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7838073&style=0038&nbdigits=9&type=page&initCount=0" title="Migrate" Alt="web counter"   border="0" /></a>  <br>
+     <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0" title="Total CLoud Journey" Alt="web counter"   border="0"   />
+     
+</left>
+<left>
+    <br>
+    <br>
+        <b> Last Updated </b> <br>
+        <i><font color=orange>28-08-2022</font></i>
+    </left>
+    <left>
+        <br>
+        <br>
+            <b> Team </b> <br>
+            <i> <a href="https://www.linkedin.com/in/jotaguy"  style="color:orange">Gia Hưng </a> <br>
+            <a href="https://www.linkedin.com/in/vanhoangkha/" style="color:orange">Hoàng Kha </a> <br>
+        </i>
+        </left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>AWS Certified Solutions Architect - Associate Exam Notes</a> > <a href='/2-prerequiste/'>Deep Dive</a> > Networking and VPC
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Networking and VPC
+            </h1>
+          
+
+        
+
+
+
+	<h4 id="networking---vpc">Networking - VPC</h4>
+<h4 id="cidr---classless-inter-domain-routing">CIDR - Classless Inter-Domain Routing</h4>
+<ul>
+<li>CIDR is used for Security Group rules and AWS networking in general</li>
+<li>It is used to define an IP address range
+<ul>
+<li>ww.xx.yy.zz/32 - one IP address</li>
+<li>0.0.0.0/0 - all possible IP addresses</li>
+<li>192.168.0.0/26 - range of 192.168.0.0 - 192.168.0.63 64 IP addresses</li>
+</ul>
+</li>
+<li>CIDR has to component:
+<ul>
+<li>The base IP: represents an IP from a given the range</li>
+<li>The subnet mask: defines how many bits can change in the IP</li>
+</ul>
+</li>
+<li>The subnet mask can take 2 forms:
+<ul>
+<li>255.255.255.0 - less common</li>
+<li>/24 - more common</li>
+</ul>
+</li>
+<li>The subnet mask basically allows a part of the base IP to get additional next values:
+<ul>
+<li>/32 allows for 1 IP =&gt; 2^0</li>
+<li>/31 allows for 2 IPS =&gt; 2^1</li>
+<li>/30 allows for 4 IPs =&gt; 2^2</li>
+<li>/29 allows for 8 IPs =&gt; 2^3
+&hellip;</li>
+<li>/0 allows for 2^31 IPs, all IPs</li>
+</ul>
+</li>
+<li>Most used subnet masks:
+<ul>
+<li>/32 - no IP number can change</li>
+<li>/24 - last IP number can change (256 IP addresses)</li>
+<li>/16 - last 2 IP numbers can change (65536 IP addresses)</li>
+<li>/8 - last three IP numbers can change</li>
+<li>/0 - all the IP numbers can change</li>
+</ul>
+</li>
+<li>To calculate CIDR, use: <a href="https://www.ipaddressguide.com/cidr">https://www.ipaddressguide.com/cidr</a></li>
+</ul>
+<h4 id="private-vs-public-ip-addresses-ipv4">Private vs Public IP Addresses (IPv4)</h4>
+<ul>
+<li>Private IP can only allow certain values:
+<ul>
+<li>10.0.0.0 - 10.255.255.255 (10.0.0.0/8) - used for big networks</li>
+<li>172.16.0.0 - 172.31.255.255 (172.16.0.0/12) - default AWS private VPC</li>
+<li>192.168.0.0 - 192.168.255.255 (192.168.0.0/16) - home networks</li>
+</ul>
+</li>
+<li>All the rest of the IP addresses are considered public</li>
+</ul>
+<h4 id="default-vpc">Default VPC</h4>
+<ul>
+<li>All new accounts have a default VPC</li>
+<li>New instances are launched into default VPC if no subnet is specified</li>
+<li>Default VPCs have internet connectivity and all instances have public IP address</li>
+<li>We also get a public and a private DNS name</li>
+</ul>
+<h4 id="vpc---virtual-private-cloud">VPC - Virtual Private Cloud</h4>
+<ul>
+<li>We can have multiple VPCs in a region (max 5 per region - soft limit)</li>
+<li>Max CIDR per VPC is 5, for each CIDR:
+<ul>
+<li>Min size is /28 = 16 IP addresses</li>
+<li>Max size is /16 = 65K IP addresses</li>
+</ul>
+</li>
+<li>VPC is private =&gt; only the private address ranges are allowed</li>
+<li><strong>A newly created VPC CIDR should not overlap with an existing one used another VPC</strong></li>
+</ul>
+<h4 id="vpc-subnets">VPC Subnets</h4>
+<ul>
+<li>Subnets are tied to specific AZs</li>
+<li>AWS reservers 5 IP addresses (first 4 and the last 1 address) in each subnet</li>
+<li>These 5 IP addresses are not available and can not be assigned to an instance</li>
+<li>Example, in case of a CIDR block 10.0.0.0/24 the reserver IPs are the following:
+<ul>
+<li>10.0.0.0 - Network address</li>
+<li>10.0.0.1 - Reserved by AWS for the VPC router</li>
+<li>10.0.0.2 - Reserved by AWS for mapping to an Amazon provided DNS</li>
+<li>10.0.0.3 - Reserved for future use</li>
+<li>10.0.0.255 - Network broadcast address. AWS does not supports broadcast in a VPC, therefore the address is reserved</li>
+</ul>
+</li>
+</ul>
+<h4 id="igw---internet-gateways">IGW - Internet Gateways</h4>
+<ul>
+<li>Internet gateways helps a VPC instance to connect to the internet</li>
+<li>It scales horizontally and is HA and redundant</li>
+<li>Must be created separately from a VPC</li>
+<li>One VPC can have only one attached internet gateway, one internet gateway can have only one VPC</li>
+<li>Internet Gateway is also a NAT for the instances that have a public IPv4</li>
+<li>Internet Gateways on their one do not allow internet access, route tables also must be configured</li>
+</ul>
+<h4 id="nat-instances---network-address-translation-outdated">NAT Instances - Network Address Translation (outdated)</h4>
+<ul>
+<li>Allow instances in private subnets to connect to the internet</li>
+<li>NAT instances must be launched in a public subnet to have internet access</li>
+<li><em>Source/Destination Check</em> flag for EC2 must be disabled</li>
+<li>NAT instanced should have an Elastic IP attached to them</li>
+<li>Route tables must be configured to route traffic from the private subnet to the NAT instance</li>
+<li>In order to set up we must use a pre-configured Amazon Linux AMI</li>
+<li>It is not HA/resilient out of the box =&gt; We would need to set up an ASG in multi AZ + resilient user data script</li>
+<li>Internet traffic bandwidth depends on the EC2 instance performance</li>
+</ul>
+<h4 id="nat-gateway">NAT Gateway</h4>
+<ul>
+<li>AWS managed NAT, higher bandwidth, better availability, no administration</li>
+<li>It is pay by hour for usage and bandwidth</li>
+<li>NAT is created in a specific AZ and it uses an Elastic IP</li>
+<li>It can not be used by an instance from the same subnet as the NAT</li>
+<li>Required an IGW</li>
+<li>5Gbps of bandwidth with automatic scaling up to 45Gbps</li>
+<li>There is no security group to manage</li>
+<li>NAT Gateway is resilient within a single AZ</li>
+<li>We must create multiple NAT Gateways in multiple AZs for fault-tolerance</li>
+</ul>
+<h4 id="comparison-between-nat-instance-and-nat-gateway">Comparison between NAT Instance and NAT Gateway</h4>
+<ul>
+<li>AWS comparison: <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-comparison.html">https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-comparison.html</a></li>
+</ul>
+<h4 id="dns-resolution-in-vpc">DNS Resolution in VPC</h4>
+<p>-DNS Resolutions settings:
+- <strong>enableDnsSupport</strong>:
+- By default is set to true
+- Helps decide if DNS resolution is supported for the VPC
+- If true, queries the AWS DNS server at 169.254.169.253
+- <strong>enableDNSHostName</strong>:
+- By default is set to false for an user created VPC, true for the Default VPC
+- Won&rsquo;t do anything unless enableDnsSupport=true
+- If true, the VPC assigns public host names to EC2 instances</p>
+<ul>
+<li>If we use custom DNS domain names in a private zone in Route53, we must set both of these attributes to true</li>
+</ul>
+<h4 id="network-access-control-lists-nacl-and-security-groups-sg">Network Access Control Lists (NACL) and Security Groups (SG)</h4>
+<ul>
+<li>NACL is a like a firewall which controls traffic which goes outside of comes inside a subnet</li>
+<li>The default NACL allows everything outbound and everything inbound</li>
+<li>We define one NACL per subnet, new subnets are assigned the default NACL</li>
+<li>We can define NACL rules:
+<ul>
+<li>Rules have a number (1 - 32766) which defines the precedence</li>
+<li>Rules with lower number have higher precedence</li>
+<li>Rule with higher precedence wins at the time of evaluation</li>
+<li>Last rule is has the precedence of asterisk (*) and denies all the requests. This rule is not editable</li>
+<li>AWS recommends adding rules by increment of 100</li>
+</ul>
+</li>
+<li>Newly created created NACL will deny everything (last rule)</li>
+<li>NACLs are great way of blocking a specific IP address at the subnet level</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Security Group</th>
+<th>Network ACL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operates at the instance level</td>
+<td>Operates at the subnet level</td>
+</tr>
+<tr>
+<td>Supports allow rules only</td>
+<td>Supports allow rules and deny rules</td>
+</tr>
+<tr>
+<td>It is stateful: return traffic is automatically allowed</td>
+<td>It is stateless: return traffic must be explicitly allowed by the rules</td>
+</tr>
+<tr>
+<td>All rules are evaluated before deciding to allow traffic</td>
+<td>Rules have a precedence when deciding whether to allow or deny traffic</td>
+</tr>
+<tr>
+<td>It is associated to an instance inside of a VPC</td>
+<td>Automatically applies to all instances in the subnet</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Example of NACL with ephemeral ports: <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html">https://docs.aws.amazon.com/vpc/latest/userguide/vpc-network-acls.html</a></li>
+</ul>
+<h4 id="vpc-peering">VPC Peering</h4>
+<ul>
+<li>VPC Peering allows to connect two VPCs privately using AWS network. This will make them behave as if they were the same network</li>
+<li>Networks must have non-overlapping CIDRs</li>
+<li>VPC Peering connections is not transitive, which means it must be established for each VPC that needs to communicate with other</li>
+<li>VPC Peering can be done form one AWS account to another</li>
+<li>We must update the route tables in each VPC subnet to ensure instances can communicate with each other</li>
+<li>VPC peering can work inter-region, cross-account. We can reference a security group of a peered VPC (this works cross account also)</li>
+</ul>
+<h4 id="vpc-endpoints">VPC Endpoints</h4>
+<ul>
+<li>Allow connection to AWS services from VPCs using a private network instead of the public internet</li>
+<li>They scale horizontally</li>
+<li>They remove the need of IGW, NAT, etc. to access AWS services</li>
+<li>There are 2 kinds of VPC Endpoints:
+<ul>
+<li><strong>Interface</strong>: provisions an ENI (private IP address) as an entry point. A security group must be attached to it. Most AWS services use this method</li>
+<li><strong>Gateway</strong>: provisions a target and must be used in a route table. Gateway is used for S3 and DynamoDB</li>
+</ul>
+</li>
+<li>In case of issues:
+<ul>
+<li>We have to check DNS settings resolution in the VPC</li>
+<li>We have to check the route tables</li>
+</ul>
+</li>
+</ul>
+<h4 id="vpc-flow-logs">VPC FLow Logs</h4>
+<ul>
+<li>Flow logs help capture information about the IP traffic going into the interfaces</li>
+<li>There are 2 kinds of Flow Logs:
+<ul>
+<li>VPC Flow Logs</li>
+<li>Subnet Flow Logs</li>
+<li>Elastic Network Interface Flow Logs</li>
+</ul>
+</li>
+<li>Flow logs help monitor and troubleshoot connectivity issues</li>
+<li>Flow logs data can go to S3/CloudWatch logs</li>
+<li>It can capture network information from some of the AWS managed interface too: ELB, RDS, ElastiCache, Redshift, AWS Workspaces</li>
+</ul>
+<h4 id="flow-log-syntax">Flow Log Syntax</h4>
+<pre tabindex="0"><code>&lt;version&gt; &lt;account-id&gt; &lt;interface-id&gt; &lt;srcaddr&gt; &lt;dstaddr&gt; &lt;srcport&gt; &lt;dstport&gt; &lt;protocol&gt; &lt;packets&gt; &lt;bytes&gt; &lt;start&gt; &lt;end&gt; &lt;action&gt; &lt;log-status&gt;
+</code></pre><ul>
+<li>Srcaddr, dstaddr help identify problematic IP addresses</li>
+<li>Scrport, dstport help identify problematic ports</li>
+<li>Action: success or failure of the request due to SG/NACL</li>
+<li>Flow logs can be used for analytics on usage patterns or malicious behavior</li>
+<li>We can query VPC flow logs using Athena on S3 or CloudWatch Logs Insights</li>
+</ul>
+<h4 id="bastion-hosts">Bastion Hosts</h4>
+<ul>
+<li>Bastion hosts are used to SSH into instances from private subnets</li>
+<li>The bastion host is sitting in the public subnet which is connected to the private subnets</li>
+<li>Bastion host SG must be really strict</li>
+<li>We have to make sure the bastion host only has port 22 traffic from the IP we need, not from the security group of other instances</li>
+</ul>
+<h4 id="site-to-site-vpn">Site to Site VPN</h4>
+<ul>
+<li>Virtual Private Gateway:
+<ul>
+<li>VPN concentrator on the AWS side of the VPN connection</li>
+<li>Virtual Private Gateway (VPG) is created and attached to the VPC from which we want to create the site-to-site VPN connection</li>
+<li>Possibility to customize the ASN</li>
+</ul>
+</li>
+<li>Customer Gateway:
+<ul>
+<li>Software application or physical device on customer side of the VPN connection</li>
+<li>IP Address: use static, internet-routable IP address for the customer device. If it is behind a NAT (with NAT-T enabled), use the public IP address of the NAT</li>
+</ul>
+</li>
+</ul>
+<h4 id="direct-connect-dx">Direct Connect (DX)</h4>
+<ul>
+<li>Direct Connect provides a dedicated private connection from a remote network to the AWS VPC</li>
+<li>Dedicated connection must be setup between the client&rsquo;s DC and AWS Direct Connect locations</li>
+<li>In AWS we still need to setup a Virtual Private Gateway in the VPC</li>
+<li>DX will allow access to public resources (S3) and private (EC2) on the same connection</li>
+<li>Use cases:
+<ul>
+<li>Increase bandwidth throughput</li>
+<li>More consistent network experience - application using real-time data feeds</li>
+<li>Hybrid Environment</li>
+</ul>
+</li>
+<li>DX supports both IPv4 and IPv6</li>
+<li>Direct Connect Gateway: if we want to setup a Direct Connect to one or more VPC in many different regions (but in the same account), we must use a Direct Connect Gateway</li>
+<li>Direct Connect Gateway does not replace VPC Peering</li>
+<li>Direct Connect has two connections types:
+<ul>
+<li>Dedicated Connections: 1 Gbps and 10 Gbps capacity
+<ul>
+<li>Physical ethernet port dedicated to a customer</li>
+<li>In order to get this a request has to be made to AWS first, then completed by AWS Direct Connect Partners</li>
+</ul>
+</li>
+<li>Hosted Connections: 50 Mbps, 500 Mbps, up to 10 GBps
+<ul>
+<li>Connection requests are made via AWS Direct Connect Partners</li>
+<li>Capacity can be added or removed on demand</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Lead times are often longer than 1 month</li>
+</ul>
+<h4 id="direct-connect-encryption">Direct Connect Encryption</h4>
+<ul>
+<li>Data in transit is not encrypted but is private</li>
+<li>In case there is need for encryption we can combine DX with VPN which provides IPsec-encrypted private connection</li>
+</ul>
+<h4 id="egress-only-internet-gateway">Egress Only Internet Gateway</h4>
+<ul>
+<li>Egress only Internet Gateway works only for IPv6</li>
+<li>Similar function as a NAT, but for IPv6 (NAT is for IPv4)</li>
+<li>All IPv6 addresses are public addresses, therefore all our instances are publicly accessible</li>
+<li>Egress Only Internet Gateway gives our IPv6 instances access to the internet, but they wont be directly reachable by the internet</li>
+<li>After creating an Egress Only Internet Gateway we have to edit the route tables</li>
+</ul>
+<h4 id="exposing-services-in-a-vpc-to-other-vpc">Exposing Services in a VPC to Other VPC</h4>
+<ul>
+<li>Option 1: make it public
+<ul>
+<li>Goes through the public internet</li>
+<li>Tough to manage access</li>
+</ul>
+</li>
+<li>Option 2: VPC peering
+<ul>
+<li>Must create many peering relations</li>
+<li>Opens the whole internal network to the other network</li>
+</ul>
+</li>
+<li>Option 3: AWS Private Link (VPC Endpoint Services)
+<ul>
+<li>Most secure and scalable way to expose a service to multiple other VPCs</li>
+<li>The solution does not require VPC peering, IGW, NAT, route tables</li>
+<li>Requires a network load balancer in the service VPC and an ENI in the customer VPC</li>
+</ul>
+</li>
+</ul>
+<h4 id="ec2-classic-and-aws-classiclink-deprecated">EC2-Classic and AWS ClassicLink (deprecated)</h4>
+<ul>
+<li>EC2-Classic: instances are running in a single network shared with other customers</li>
+<li>Amazon VPC: instances are running logically isolated in an AWS account</li>
+<li>ClassicLink allows to link EC2-Classic instances to a VPC inside an account. In order to have a link between a VPC and an EC2-Classic instance we have to:
+<ul>
+<li>Create a ClassicLink and associate a security group to it which will enable private communication</li>
+<li>ClassicLink removes the necessity to have IPv4 public addresses for this type of communication</li>
+</ul>
+</li>
+</ul>
+<h4 id="aws-vpn-cloudhub">AWS VPN CloudHub</h4>
+<ul>
+<li>Provides secure communication between multiple customer networks in case we have multiple VPN connections</li>
+<li>Low cost hub-and-spoke model for primary or secondary network connectivity between locations</li>
+</ul>
+<h4 id="transit-gateway">Transit Gateway</h4>
+<ul>
+<li>It is a star connection between all the VPCs and the on-premises infrastructure</li>
+<li>It is for having transitive peering between thousands of VPCs and on-premises and hub-and-spoke connections</li>
+<li>Transit Gateway is a regional resource, but it can work cross-region</li>
+<li>It supports cross-account sharing using Resource Access Manager (RAM)</li>
+<li>We can peer Transit Gateways across regions</li>
+<li>Route tables can limit which VPC can talk with what other VPC</li>
+<li>Works with Direct Connect Gateway, VPN connections</li>
+<li>Supports <strong>IP Multicast</strong> (not supported by any other AWS services)</li>
+</ul>
+<h4 id="vpc-summary">VPC Summary</h4>
+<ul>
+<li>CIDR: IP Range</li>
+<li>VPC: Virtual Private Cloud =&gt; we define a list of IPv4 and IPv6 CIDRs</li>
+<li>Subnets: tied to an AZ, we define it by CIDRs</li>
+<li>Internet Gateway: at the VPC level, provides IPv4 and IPv6 internet access</li>
+<li>Route tables: must be edited to add routes from subnets to the IGW, VPC peering connections, VPC Endpoints, etc.</li>
+<li>NAT Instance: gives internet access to instances in a private subnets. Deprecated, must be setup in a public subnet, Source/Destination flag should be disabled</li>
+<li>NAT Gateway: managed by AWS, provides scalable internet access to private instances, only for IPv4</li>
+<li>Private DNS + Route 53: enables DND Resolution + DNS hostname inside a VPC</li>
+<li>NACL: Stateless, subnet level routes, used for filter inbound and outbound traffic</li>
+<li>Security Groups: Stateful, operate at the instance level</li>
+<li>VPC Peering: connect to VPC with non overlapping CIDRs, non transitive</li>
+<li>VPC Endpoints: provide private access to AWS Services</li>
+<li>VPC FLow Logs: can be configured at VPC/Subnet/ENI level, used for monitoring traffic</li>
+<li>Bastion Hosts: public instances to SSH into, used for connecting to other private instances via SSH</li>
+<li>Site to Site VPN: used for setup a Customer Gateway on DC, a Virtual Private Gateway on VPC and site-to-site VPN over public internet</li>
+<li>Direct Connect: used for setup a VIrtual Private Gateway on VPC and establish a direct private connection to an AWS Direct Connect Location</li>
+<li>Direct Connect Gateway: setup Direct Connect to many VPCs in different regions</li>
+<li>Internet Gateway Egress: similar to NAT, but for IPv6</li>
+<li>Private Link (VPC Endpoint Services): connect services from one VPC to another</li>
+<li>ClassicLink: connect EC2-Classic instances to VPCs</li>
+<li>VPN CloudHub: hub-and-spoke VPN model to connect sites</li>
+<li>Transit Gateway: transitive peering connection for VPC, VPN and DX</li>
+</ul>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/2-prerequiste/2.11-fsx/" title="Amazon FSx"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/2-prerequiste/2.13-database/" title="Databases" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1661685366"></script>
+    <script src="/js/perfect-scrollbar.min.js?1661685366"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1661685366"></script>
+    <script src="/js/jquery.sticky.js?1661685366"></script>
+    <script src="/js/featherlight.min.js?1661685366"></script>
+    <script src="/js/highlight.pack.js?1661685366"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1661685366"></script>
+    <script src="/js/learn.js?1661685366"></script>
+    <script src="/js/hugo-learn.js?1661685366"></script>
+
+    <link href="/mermaid/mermaid.css?1661685366" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1661685366"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-158079754-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>
